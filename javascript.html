@@ -1,0 +1,102 @@
+<!DOCTYPE HTML> 
+<html> 
+
+<head> 
+	<title> 
+		Pineapple
+	</title> 
+	 <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> </script> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	
+</head> 
+
+<body> 
+	<h2>Names follow</h2>
+	<ul id="name-list"></ul>
+    <button onclick="loadData();">Show more</button>
+	
+   
+    <script>
+   
+		const xhr = new XMLHttpRequest();
+		xhr.onload = function() {
+		if(this.status ===200){
+		try {
+		
+				const resObj = JSON.parse(this.responseText);
+				var array=[];
+				for (var x in resObj) {
+				array.push(resObj[x]);
+				//console.log(array[x]["fullName"]);
+				//console.log(resObj);
+				}
+	
+	
+				for (var i=0; i<array.length; i++){
+						var ul = document.getElementById("name-list");
+						var li = document.createElement("li");
+						li.appendChild(document.createTextNode(array[i]["fullName"]));
+						ul.appendChild(li);
+					}
+					
+				} catch (e) {
+					console.warn('Error in JSON');
+					}
+					} else {
+					console.warn('200 ok');
+					}
+		};
+		
+		xhr.open('get', 'http://serveraddress');
+		xhr.send();
+	
+	function loadData() {
+		const xhr1 = new XMLHttpRequest();
+		xhr1.onload = function test() {
+		if(this.status ===200){
+		try {
+		
+				const resObj = JSON.parse(this.responseText);
+				var array=[];
+				for (var x in resObj) {
+				array.push(resObj[x]);
+				}
+	
+	
+				for (var i=0; i<array.length; i++){
+						var html = '<button onclick="window.location.reload();">Go Back!</button><br><h1>Full Contact Info</h1><table>';
+						html += '<br><tr>';
+						$.each(array[0], function(index, value){
+							html += '<th style="text-align: left;color: purple">'+index+'</th>';
+						});
+						html += '</tr>';
+						 $.each(array, function(index, value){
+							 html += '<tr>';
+							$.each(value, function(index2, value2){
+								html += '<td>'+value2+'</td>';
+							});
+							html += '<tr>';
+						 });
+						 html += '</table>';
+						 $('body').html(html);
+					}
+					
+				} catch (e) {
+					console.warn('Error in JSON');
+					}
+					} else {
+					console.warn('200 ok');
+					}
+		};
+	
+		
+		
+		xhr1.open('get', 'http://serveraddress');
+		xhr1.send();
+		
+		}
+		
+	</script> 
+</body> 
+
+</html> 
